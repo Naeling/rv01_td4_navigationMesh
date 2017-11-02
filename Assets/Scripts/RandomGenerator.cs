@@ -5,6 +5,7 @@ using UnityEngine;
 public class RandomGenerator : MonoBehaviour {
 
     public GameObject p_car;
+    public GameManager gameManager;
     public Transform[] t_spawns;
     public Transform[] t_targets;
 
@@ -46,6 +47,7 @@ public class RandomGenerator : MonoBehaviour {
 
             GameObject newCar = Instantiate(p_car, t_spawns[spawnIndex].position, Quaternion.identity);
             newCar.GetComponent<NavMeshScript>().UpdateDestination(t_targets[spawnIndex]);
+            newCar.GetComponent<Horn>().gameManager = gameManager;
             spawnCounters[spawnIndex].MakeUnavailable();
         }		
 	}

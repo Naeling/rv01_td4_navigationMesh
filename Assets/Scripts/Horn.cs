@@ -6,9 +6,10 @@ public class Horn : MonoBehaviour {
 
     private AudioSource audioSource;
     public AudioClip hornClip;
+    public GameManager gameManager;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         audioSource = GetComponent<AudioSource>();
 	}
 
@@ -18,6 +19,8 @@ public class Horn : MonoBehaviour {
         {
             Debug.Log("Collision with a player");
             audioSource.PlayOneShot(hornClip);
+            gameManager.DecrementScore();
+            gameManager.ResetInitialPosition();
         }
     }
 }
