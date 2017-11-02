@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NavMeshScript : MonoBehaviour {
+public class NavMeshScript : MonoBehaviour
+{
 
     public Transform t_target;
     private NavMeshAgent navMeshAgent;
 
-	private void Start () {
+    private void Start()
+    {
         Debug.Log("Hi, I'm a new car !");
         navMeshAgent = GetComponent<NavMeshAgent>();
         if (t_target != null)
@@ -19,6 +21,10 @@ public class NavMeshScript : MonoBehaviour {
 
     public void UpdateDestination(Transform t)
     {
+        if (navMeshAgent == null)
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
         navMeshAgent.SetDestination(t.position);
     }
 }

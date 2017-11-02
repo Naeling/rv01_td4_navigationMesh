@@ -38,11 +38,11 @@ public class RandomGenerator : MonoBehaviour {
 
         if (i_currentCars < i_maxCars && Random.Range(0f, 1f) < f_probability && IsAvailable())
         {
-            int spawnIndex = Random.Range(0, t_spawns.Length + 1);
+            int spawnIndex = Random.Range(0, t_spawns.Length);
 
             while (!spawnCounters[spawnIndex].Available)
             {
-                spawnIndex = Random.Range(0, t_spawns.Length + 1);
+                spawnIndex = Random.Range(0, t_spawns.Length);
             }
 
             GameObject newCar = Instantiate(p_car, t_spawns[spawnIndex].position, Quaternion.identity);
