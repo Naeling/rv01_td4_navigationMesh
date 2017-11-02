@@ -11,7 +11,6 @@ public class NavMeshScript : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Hi, I'm a new car !");
         navMeshAgent = GetComponent<NavMeshAgent>();
         if (t_target != null)
         {

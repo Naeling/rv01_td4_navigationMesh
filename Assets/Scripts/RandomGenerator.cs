@@ -30,7 +30,6 @@ public class RandomGenerator : MonoBehaviour {
 
         float delta = Time.fixedDeltaTime;
 
-        // WARNING this foreach loop may be buggy as fuck, if the value is copied in the loop and not the same as in the original array
         foreach (SpawnCounter s in spawnCounters)
         {
             s.DecrementTimer(delta);
@@ -46,7 +45,6 @@ public class RandomGenerator : MonoBehaviour {
             }
 
             GameObject newCar = Instantiate(p_car, t_spawns[spawnIndex].position, Quaternion.identity);
-            // WARNING this instruction may be buggy because of the start method not being called if the object is instantiated during runtime ? 
             newCar.GetComponent<NavMeshScript>().UpdateDestination(t_targets[spawnIndex]);
             spawnCounters[spawnIndex].MakeUnavailable();
         }		
