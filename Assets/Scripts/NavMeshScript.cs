@@ -5,15 +5,20 @@ using UnityEngine.AI;
 
 public class NavMeshScript : MonoBehaviour {
 
-    public Transform T_target;
+    public Transform t_target;
     private NavMeshAgent navMeshAgent;
 
-	void Start () {
+	private void Start () {
+        Debug.Log("Hi, I'm a new car !");
         navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.SetDestination(T_target.position);
-	}
-	
-	void Update () {
-		
-	}
+        if (t_target != null)
+        {
+            navMeshAgent.SetDestination(t_target.position);
+        }
+    }
+
+    public void UpdateDestination(Transform t)
+    {
+        navMeshAgent.SetDestination(t.position);
+    }
 }

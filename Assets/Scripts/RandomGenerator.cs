@@ -13,11 +13,11 @@ public class RandomGenerator : MonoBehaviour {
     public float f_spawnCooldown;
 
     private int i_currentCars;
-    private SpawnCounter[] hasJustSpawned;
+    private SpawnCounter[] spawnCounters;
          
     private void Start()
     {
-    hasJustSpawned = new SpawnCounter[]{
+    spawnCounters = new SpawnCounter[]{
             new SpawnCounter(0f, f_spawnCooldown, true),
             new SpawnCounter(0f, f_spawnCooldown, true),
             new SpawnCounter(0f, f_spawnCooldown, true),
@@ -31,18 +31,40 @@ public class RandomGenerator : MonoBehaviour {
         float delta = Time.fixedDeltaTime;
 
         // WARNING this foreach loop may be buggy as fuck, if the value is copied in the loop and not the same as in the original array
-        foreach (SpawnCounter s in hasJustSpawned)
+        foreach (SpawnCounter s in spawnCounters)
         {
             s.DecrementTimer(delta);
         }
 
-        if (i_currentCars < i_maxCars && Random.Range(0f, 1f) < f_probability)
+        if (i_currentCars < i_maxCars && Random.Range(0f, 1f) < f_probability && IsAvailable())
         {
             int spawnIndex = Random.Range(0, t_spawns.Length + 1);
-            Instantiate(p_car, t_spawns[spawnIndex].position, Quaternion.identity);
-            hasJustSpawned[spawnIndex].MakeUnavailable();
+
+            while (!spawnCounters[spawnIndex].Available)
+            {
+                spawnIndex = Random.Range(0, t_spawns.Length + 1);
+            }
+
+            GameObject newCar = Instantiate(p_car, t_spawns[spawnIndex].position, Quaternion.identity);
+            // WARNING this instruction may be buggy because of the start method not being called if the object is instantiated during runtime ? 
+            newCar.GetComponent<NavMeshScript>().UpdateDestination(t_targets[spawnIndex]);
+            spawnCounters[spawnIndex].MakeUnavailable();
         }		
 	}
+
+    private bool IsAvailable()
+    {
+        bool isAvailable = false;
+        foreach (SpawnCounter s in spawnCounters)
+        {
+            if (s.Available)
+            {
+                isAvailable = true;
+                break;
+            }
+        }
+        return isAvailable;
+    }
 
     public class SpawnCounter
     {
